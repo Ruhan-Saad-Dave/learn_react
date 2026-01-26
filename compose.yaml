@@ -1,0 +1,7 @@
+services:
+  app:
+    build:
+      context: ./my-react-app
+      dockerfile: ../Dockerfile
+    ports:
+      - "3000:80"

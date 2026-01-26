@@ -1,0 +1,55 @@
+# The Docker Compose Workflow (Daily Use)
+- Build and Start: Creates images and starts containers in the background.
+docker compose up -d --build
+
+- Stop and Remove: Stops containers and removes the internal network created by Compose.
+docker compose down
+
+- View Status: See which services are running and their ports.
+docker compose ps
+
+- View Logs: Real-time output from your app (useful for debugging code errors).
+docker compose logs -f 
+
+# Image Management & Docker Hub
+- Login: Required before you can push.
+docker login
+
+- Tag an Image: Create a versioned alias for a local image.
+docker tag local-image-name yourusername/repository:v1.0
+
+- Push to Hub: Upload your tagged image.
+docker push yourusername/repository:v1.0
+
+- Pull from Hub: Download an image to a new machine.
+docker pull yourusername/repository:v1.0 
+
+- List Images: See all images stored on your laptop.
+docker images 
+
+# Debugging & "Under the Hood"
+- Interactive Terminal: "Jump inside" a running container to run Linux commands.
+docker exec -it <container_name> /bin/bash 
+
+- Resource Usage: See live CPU and RAM consumption.
+docker stats
+
+- Inspect Metadata: See IP addresses, environment variables, and config.
+docker inspect <container_name>
+
+# Cleanup (Keeping your Laptop Fast)
+- Remove a Container:
+docker rm -f <container_name>
+
+- Remove an Image:
+docker rmi <image_id_or_name>
+
+- The "Nuclear" Option (System Prune): Removes all stopped containers, unused networks, and "dangling" images (leftovers from failed builds).
+docker system prune
+Add -a at the end if you want to delete all unused images, not just dangling ones.
+
+# Practical Example: The "Update" Loop
+If you make a change to your code and want to push it:
+1. Build/Test locally: docker compose up -d --build
+2. Tag it: docker tag project-app yourusername/react-app:v1.2
+3. Push it: docker push yourusername/react-app:v1.2
