@@ -1,0 +1,82 @@
+Here is the step-by-step navigation for the Google Cloud Platform (GCP) console to ensure your account stays within your desired limits.
+
+### 1. Billing Budgets & Alerts
+
+This is the primary way to monitor your spending and receive notifications before costs escalate.
+
+* **Section:** **Navigation Menu** (three horizontal lines, top-left) > **Billing** > **Budgets & alerts**.
+* **Feature:** **Create Budget**.
+* **What it does:**
+* **Scope:** You select the project you want to track.
+* **Amount:** You set a "Target amount" (e.g., ₹200).
+* **Threshold Rules:** You define at what percentage of the budget you want to receive an email. Setting alerts at **50%, 90%, and 100%** is standard practice.
+
+
+
+---
+
+### 2. Cloud Run Scaling (Zero-Cost Configuration)
+
+For Dockerized applications, Cloud Run is the most cost-effective tool because it can shut down completely when not in use.
+
+* **Section:** **Navigation Menu** > **Cloud Run** > [Your Service Name] > **Edit & Deploy New Revision**.
+* **Feature:** **Autoscaling** (under the "Configuration" or "Scaling" tab).
+* **What it does:**
+* **Minimum number of instances:** Set this to **0**. This ensures that when no one is accessing your URL, no containers are running, and you are charged nothing.
+* **Maximum number of instances:** Set this to a low number (e.g., **3 to 5**) to prevent a sudden spike in traffic from starting too many containers and increasing your bill.
+
+
+
+---
+
+### 3. API Quotas & Limits
+
+This prevents "runaway code" (like an infinite loop) from calling paid services thousands of times per minute.
+
+* **Section:** **Navigation Menu** > **IAM & Admin** > **Quotas & System Limits**.
+* **Feature:** **Quotas**.
+* **What it does:**
+* **Filter:** Click the filter bar and select **Service**. Search for the API you are using, such as the **"Generative Language API"** for Gemini.
+* **Edit Quota:** Find "Requests per minute" or "Requests per day," select it, and click **Edit Quotas**. Lower the limit to a safe number that fits your testing needs. If your code exceeds this, GCP will block the request instead of charging you.
+
+
+
+---
+
+### 4. Artifact Registry Cleanup Policies
+
+Every time you build a Docker image and push it to GCP, it is stored in a repository. Over time, these old versions can accumulate storage costs.
+
+* **Section:** **Navigation Menu** > **Artifact Registry** > **Repositories** > [Your Repository] > **Edit Repository**.
+* **Feature:** **Cleanup policies**.
+* **What it does:**
+* **Keep most recent versions:** You can set a policy to keep only the last **3 to 5 versions** of your image.
+* **Delete artifacts:** You can set images to automatically delete if they are older than a certain number of days (e.g., **14 days**).
+
+
+
+---
+
+### 5. Project Shutdown (The "Kill Switch")
+
+If you notice your budget being consumed and cannot identify the source, this is the final resort to stop all charges.
+
+* **Section:** **Navigation Menu** > **IAM & Admin** > **Settings**.
+* **Feature:** **Shut Down**.
+* **What it does:**
+* **Action:** Click the "Shut Down" button at the top of the page.
+* **Confirmation:** You will need to type the **Project ID** to confirm. This immediately stops all running services and prevents any further billing for that project. The project will be permanently deleted after a 30-day "cooldown" period.
+
+
+
+---
+
+### Summary Table for Quick Reference
+
+| Risk Factor | Feature to Use | Navigation Path |
+| --- | --- | --- |
+| **Unknown Spending** | Budget Alerts | Billing > Budgets & alerts |
+| **Idle Server Costs** | Min Instances = 0 | Cloud Run > Scaling |
+| **Infinite Code Loops** | API Quotas | IAM & Admin > Quotas |
+| **Storage Bloat** | Cleanup Policies | Artifact Registry > Edit Repo |
+| **Total Bill Panic** | Project Shutdown | IAM & Admin > Settings |
